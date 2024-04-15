@@ -310,6 +310,22 @@ paths:
                   data:
                     example: ~
 
+        401:
+          description: Bank account number already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Bank account number already exists
+                  data:
+                    example: ~
+
         403:
           description: Balance >= 50000!
           content:
@@ -512,6 +528,22 @@ paths:
                   data:
                     example: ~
 
+        401:
+          description: Cannot be same
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Source_id and destination_id accounts cannot be the same
+                  data:
+                    example: ~
+
         404:
           description: account_id not found!
           content:
@@ -667,7 +699,6 @@ components:
         password:
           type: string
           example: guntur123
-
     Profile:
       type: object
       properties:
@@ -686,7 +717,6 @@ components:
         user_id:
           type: integer
           example: 1
-
     Account:
       type: object
       properties:
@@ -705,7 +735,6 @@ components:
         user_id:
           type: integer
           example: 1
-
     Transaction:
       type: object
       properties:
@@ -764,8 +793,7 @@ components:
                 example: 100000
               user_id:
                 type: integer
-                example: 1
-    
+                example: 1    
     createTransaction:
       content:
         application/json:

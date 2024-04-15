@@ -20,11 +20,23 @@ module.exports = {
         });
       } 
 
-      const exist = await prisma.user.findUnique({
+      const existingNumAccount = await prisma.account.findFirst({
+        where: { bank_account_number },
+      });
+  
+      if (existingNumAccount) {
+        return res.status(401).json({
+          status: false,
+          message: "Bank account number already exists",
+          data: null,
+        });
+      }
+
+      const existId = await prisma.user.findUnique({
         where: { id: user_id },
       });
 
-      if (!exist) {
+      if (!existId) {
         return res.status(404).json({
           status: false,
           message: `User with id ${user_id} not found`,
@@ -55,7 +67,7 @@ module.exports = {
       const { search } = req.query;
 
       const accounts = await prisma.account.findMany({
-        where: { bank_account_number: {contains: search} }
+        where: { bank_name: {contains: search, mode: "insensitive" } }
       });
       res.status(200).json({
         status: true,

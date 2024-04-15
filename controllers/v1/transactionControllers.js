@@ -6,6 +6,14 @@ module.exports = {
     try {
       const { amount, source_account_id, destination_account_id } = req.body;
 
+      if (source_account_id === destination_account_id) {
+        return res.status(401).json({
+          status: false,
+          message: "Source_id and destination_id accounts cannot be the same",
+          data: null,
+        });
+      }
+
       const sourceAccount = await prisma.account.findUnique({
         where: { id: source_account_id },
       });

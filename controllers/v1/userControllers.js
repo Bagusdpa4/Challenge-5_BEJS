@@ -167,10 +167,47 @@ module.exports = {
         });
       }
 
+      // Cek apakah pengguna memiliki akun bank
+      const userAccounts = await prisma.account.findMany({
+        where: { user_id: id },
+      });
+  
+      // Jika pengguna memiliki akun bank
+      if (userAccounts.length > 0) {
+        // Cek apakah ada riwayat transaksi
+        const relatedTransactions = await prisma.transaction.findMany({
+          where: {
+            OR: [
+              { source_account_id: { in: userAccounts.map(account => account.id) } },
+              { destination_account_id: { in: userAccounts.map(account => account.id) } },
+            ],
+          },
+        });
+  
+        // Jika ada riwayat transaksi, hapus riwayat tersebut
+        if (relatedTransactions.length > 0) {
+          await prisma.transaction.deleteMany({
+            where: {
+              OR: [
+                { source_account_id: { in: userAccounts.map(account => account.id) } },
+                { destination_account_id: { in: userAccounts.map(account => account.id) } },
+              ],
+            },
+          });
+        }
+  
+        // Hapus akun bank dari pengguna
+        await prisma.account.deleteMany({
+          where: { user_id: id },
+        });
+      }
+  
+      // Hapus profil pengguna
       await prisma.profile.deleteMany({
         where: { user_id: id },
       });
 
+      // Hapus pengguna itu sendiri
       await prisma.user.delete({
         where: { id },
       });
