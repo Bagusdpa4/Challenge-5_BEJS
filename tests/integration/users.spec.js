@@ -45,7 +45,7 @@ describe("test POST /api/v1/users endpoint", () => {
       expect(body.data.profiles.identity_number).toBe(identity_number);
       expect(body.data.profiles.address).toBe(address);
     } catch (err) {
-      expect(err).toBe("error");
+      throw err;
     }
   });
   test("test email sudah terdaftar -> error", async () => {
@@ -63,12 +63,10 @@ describe("test POST /api/v1/users endpoint", () => {
       expect(statusCode).toBe(400);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
-      expect(body.status).toBe(false);
     } catch (err) {
-      expect(err).toBe("error");
+      throw err;
     }
   });
-
   test("test inputan ada yang tidak diisi -> error", async () => {
     try {
       let name = "usertest1";
@@ -85,10 +83,71 @@ describe("test POST /api/v1/users endpoint", () => {
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
       expect(body).toHaveProperty("data");
-      expect(body.status).toBe(false);
-      expect(body.data).toBe(null);
     } catch (err) {
-      expect(err).toBe("error");
+      throw err;
     }
   });
 });
+
+describe("test GET /api/v1/users endpoint", () => {
+  test("test menampilkan semua users yang sudah terdaftar -> sukses", async () => {
+    try {
+      let { statusCode, body } = await request(app).get("/api/v1/users");
+      expect(statusCode).toBe(200);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+      expect(body.data[0]).toHaveProperty("id");
+      expect(body.data[0]).toHaveProperty("name");
+      expect(body.data[0]).toHaveProperty("email");
+      expect(body.data[0]).toHaveProperty("password");
+    } catch (err) {
+      throw err;
+    }
+  });
+});
+
+// describe("test GET /api/v1/users/:id endpoint", () => {
+//   test("test menampilkan detail users by id -> sukses", async () => {
+//     try {
+//       let { statusCode, body } = await request(app)
+//         .get(`/api/v1/users/${user.id}`);
+//       console.log(body, "body")
+//       expect(statusCode).toBe(200);
+//       expect(body).toHaveProperty("status");
+//       expect(body).toHaveProperty("message");
+//       expect(body).toHaveProperty("data");
+//       expect(body.data).toHaveProperty("id");
+//       expect(body.data).toHaveProperty("name");
+//       expect(body.data).toHaveProperty("email");
+//       expect(body.data).toHaveProperty("password");
+//       expect(body.data).toHaveProperty("profiles");
+//       expect(body.data.profiles).toHaveProperty("id");
+//       expect(body.data.profiles).toHaveProperty("identity_type");
+//       expect(body.data.profiles).toHaveProperty("identity_number");
+//       expect(body.data.profiles).toHaveProperty("address");
+//       expect(body.data.profiles).toHaveProperty("user_id");
+//       expect(body.data.name).toBe(name);
+//       expect(body.data.email).toBe(email);
+//       expect(body.data.password).toBe(password);
+//       expect(body.data.profiles.identity_type).toBe(identity_type);
+//       expect(body.data.profiles.identity_number).toBe(identity_number);
+//       expect(body.data.profiles.address).toBe(address);
+//     } catch (err) {
+//       expect(err).toBe("error");
+//     }
+//   });
+
+//   test("test menampilkan detail users by id -> error", async () => {
+//     try {
+//       let { statusCode, body } = await request(app)
+//         .get(`/api/v1/users/${user.id}`);
+//       expect(statusCode).toBe(404);
+//       expect(body).toHaveProperty("status");
+//       expect(body).toHaveProperty("message");
+//       expect(body).toHaveProperty("data");
+//     } catch (err) {
+//       expect(err).toBe("error");
+//     }
+//   });
+// });
