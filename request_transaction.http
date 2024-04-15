@@ -1,0 +1,18 @@
+### Create Transaction
+POST http://localhost:3000/api/v1/transactions
+Content-Type: application/json
+
+{
+    "amount": 50000,
+    "source_account_id": 10,
+    "destination_account_id": 1
+}
+
+### Get all Transaction
+GET http://localhost:3000/api/v1/transactions
+
+### Get Detail Transaction by id
+GET http://localhost:3000/api/v1/transactions/5
+
+### Delete Transaction user by id
+Delete http://localhost:3000/api/v1/transactions/4

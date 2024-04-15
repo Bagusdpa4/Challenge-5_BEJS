@@ -1,0 +1,22 @@
+### Create Account user
+POST http://localhost:3000/api/v1/accounts
+Content-Type: application/json
+
+{
+    "bank_name": "Testing",
+    "bank_account_number": "21082010195",
+    "balance": 1000000,
+    "user_id": 13
+}
+
+### Get all Account user
+GET http://localhost:3000/api/v1/accounts
+
+### Get All Account user with search bank_account_number
+GET http://localhost:3000/api/v1/accounts?search=21082010195
+
+### Get Detail Account user by id
+GET http://localhost:3000/api/v1/accounts/10
+
+### Delete Account by id
+DELETE http://localhost:3000/api/v1/accounts/7
