@@ -6,25 +6,19 @@ module.exports = {
     try {
       const { bank_name, bank_account_number, balance, user_id } = req.body;
 
-      if (!bank_name || !bank_account_number) {
+      if (!bank_name || !bank_account_number || !user_id) {
         return res.status(400).json({
           status: false,
           message: "Input must be required",
           data: null,
         });
       } else if (!balance || balance < 50000) {
-        return res.status(400).json({
+        return res.status(403).json({
           status: false,
           message: "Balance must be at least 50000",
           data: null,
         });
-      } else if (!user_id || user_id === 0) {
-        return res.status(400).json({
-          status: false,
-          message: "User_id must be required and more than 0",
-          data: null,
-        });
-      }
+      } 
 
       const exist = await prisma.user.findUnique({
         where: { id: user_id },

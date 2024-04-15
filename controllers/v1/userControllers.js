@@ -19,7 +19,7 @@ module.exports = {
         !identity_number ||
         !address
       ) {
-        return res.status(400).json({
+        return res.status(403).json({
           status: false,
           message: "Input must be required",
           data: null,

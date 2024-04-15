@@ -59,8 +59,6 @@ paths:
                   message:
                     type: string
                     example: Email already used!
-                  data:
-                    example: ~
 
         403:
           description: Input must be required!
@@ -297,22 +295,6 @@ paths:
                     $ref: '#/components/schemas/Account'
 
         400:
-          description: Balance >= 50000!
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Balance must be at least 50000!
-                  data:
-                    example: ~
-
-        403:
           description: Input must be required!
           content:
             application/json:
@@ -325,6 +307,22 @@ paths:
                   message:
                     type: string
                     example: Input must be required
+                  data:
+                    example: ~
+
+        403:
+          description: Balance >= 50000!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Balance must be at least 50000!
                   data:
                     example: ~
 

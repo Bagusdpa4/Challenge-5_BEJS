@@ -21,17 +21,9 @@ describe("test POST /api/v1/users endpoint", () => {
       let address = "Jalan Kebenaran";
       let { statusCode, body } = await request(app)
         .post("/api/v1/users")
-        .send({
-          name,
-          email,
-          password,
-          identity_type,
-          identity_number,
-          address
-        });
+        .send({name,email,password,identity_type,identity_number,address,});
 
-      console.log("body", body);
-
+      // console.log("body", body);
       expect(statusCode).toBe(201);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -53,8 +45,50 @@ describe("test POST /api/v1/users endpoint", () => {
       expect(body.data.profiles.identity_number).toBe(identity_number);
       expect(body.data.profiles.address).toBe(address);
     } catch (err) {
-      console.error(err);
-      throw err;
+      expect(err).toBe("error");
+    }
+  });
+  test("test email sudah terdaftar -> error", async () => {
+    try {
+      let name = "usertest1";
+      let email = "usertest1@gmail.com";
+      let password = "password123";
+      let identity_type = "KTP";
+      let identity_number = "77777";
+      let address = "Jalan Kebenaran";
+      let { statusCode, body } = await request(app)
+        .post("/api/v1/users")
+        .send({name,email,password,identity_type,identity_number,address,});
+
+      expect(statusCode).toBe(400);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body.status).toBe(false);
+    } catch (err) {
+      expect(err).toBe("error");
+    }
+  });
+
+  test("test inputan ada yang tidak diisi -> error", async () => {
+    try {
+      let name = "usertest1";
+      let email = "usertest1@gmail.com";
+      let password = null;
+      let identity_type = "KTP";
+      let identity_number = "77777";
+      let address = "Jalan Kebenaran";
+      let { statusCode, body } = await request(app)
+        .post("/api/v1/users")
+        .send({name,email,password,identity_type,identity_number,address,});
+
+      expect(statusCode).toBe(403);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+      expect(body.status).toBe(false);
+      expect(body.data).toBe(null);
+    } catch (err) {
+      expect(err).toBe("error");
     }
   });
 });
