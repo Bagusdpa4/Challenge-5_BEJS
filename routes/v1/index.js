@@ -1,25 +1,23 @@
 const router = require("express").Router();
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yaml");
+const fs = require("fs");
+const path = require("path");
 
-// API Users
-const userControllers = require("../../controllers/v1/userControllers");
-router.post("/users", userControllers.store);
-router.get("/users", userControllers.index);
-router.get("/users/:id", userControllers.show);
-router.put("/users/:id", userControllers.update);
-router.delete("/users/:id", userControllers.destroy);
+const User = require("./users.routes")
+const Account = require("./accounts.routes")
+const Transaction = require("./transactions.routes")
 
-// API Bank_Account
-const accountControllers = require("../../controllers/v1/accountControllers");
-router.post("/accounts", accountControllers.register);
-router.get("/accounts", accountControllers.index);
-router.get("/accounts/:id", accountControllers.show);
-router.delete("/accounts/:id", accountControllers.destroy);
+const swagger_path = path.resolve(__dirname, "../../docs/api-docs.yaml");
+const file = fs.readFileSync(swagger_path, "utf-8");
 
-// API Transactions
-const transactionsControllers = require("../../controllers/v1/transactionControllers");
-router.post("/transactions", transactionsControllers.store);
-router.get("/transactions", transactionsControllers.index);
-router.get("/transactions/:id", transactionsControllers.show);
-router.delete("/transactions/:id", transactionsControllers.destroy);
+// API Docs
+const swaggerDocument = YAML.parse(file);
+router.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+
+// API
+router.use("/api/v1", User)
+router.use("/api/v1", Account)
+router.use("/api/v1", Transaction)
 
 module.exports = router;

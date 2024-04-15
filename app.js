@@ -1,20 +1,30 @@
 const express = require("express");
 const app = express();
-
-app.use(express.json());
-
+const morgan = require("morgan");
 const cors = require("cors");
+const router = require("./routes/v1")
+
 app.use(cors());
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(router);
 
-const swaggerUI = require("swagger-ui-express");
-const YAML = require("yaml");
-const fs = require("fs");
-const file = fs.readFileSync("./api-docs.yaml", "utf-8");
-const swaggerDocument = YAML.parse(file);
-
-app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
-const v1 = require("./routes/v1/index");
-app.use("/api/v1", v1);
+// 404 error handling
+    app.use((req, res, next) => {
+        res.status(404).json({
+        status: false,
+        message: "Bad Request",
+        data: null,
+        });
+    });
+  
+// 500 error handling
+    app.use((err, req, res, next) => {
+    res.status(500).json({
+        status: false,
+        message: err.message ?? "Internal Server Error",
+        data: null,
+    });
+    });
 
 module.exports = app;
