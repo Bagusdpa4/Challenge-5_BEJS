@@ -2,8 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const app = require("../../app");
 const request = require("supertest");
-let user
-let account
+let user = []
+let account = {}
 
 describe("test POST /api/v1/accounts endpoint", () => {
   beforeAll(async () => {
@@ -56,7 +56,7 @@ describe("test POST /api/v1/accounts endpoint", () => {
   test("test membuat account baru by user_id -> error (Bank account number already exists)", async () => {
     try {
       let bank_name = "BNI";
-      let bank_account_number = "21082010195";
+      let bank_account_number = account.bank_account_number;
       let balance = 100000;
       let user_id = user[0].id;
       let { statusCode, body } = await request(app)
@@ -110,13 +110,10 @@ describe("test GET /api/v1/accounts endpoint", () => {
 });
 
 describe("test GET /api/v1/accounts/:id endpoint", () => {
-  beforeAll(async () => {
-    account = await prisma.account.findMany();
-  });
   test("test menampilkan detail account by id -> sukses", async () => {
     try {
       let { statusCode, body } = await request(app).get(
-        `/api/v1/accounts/${account[0].id}`
+        `/api/v1/accounts/${account.id}`
       );
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
@@ -146,7 +143,7 @@ describe("test GET /api/v1/accounts/:id endpoint", () => {
   test("test menampilkan detail account by id -> error (not found)", async () => {
     try {
       let { statusCode, body } = await request(app).get(
-        `/api/v1/accounts/${account[0].id + 100}`
+        `/api/v1/accounts/${account.id + 100}`
       );
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
@@ -159,13 +156,10 @@ describe("test GET /api/v1/accounts/:id endpoint", () => {
 });
 
 describe("test DELETE /api/v1/accounts/:id endpoint", () => {
-  beforeAll(async () => {
-    account = await prisma.account.findMany();
-  });
   test("test menghapus accounts by id -> sukses", async () => {
     try {
       let { statusCode, body } = await request(app).delete(
-        `/api/v1/accounts/${account[0].id}`
+        `/api/v1/accounts/${account.id}`
       );
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
@@ -179,7 +173,7 @@ describe("test DELETE /api/v1/accounts/:id endpoint", () => {
   test("test menghapus accounts by id -> error (not found)", async () => {
     try {
       let { statusCode, body } = await request(app).delete(
-        `/api/v1/accounts/${account[0].id + 100}`
+        `/api/v1/accounts/${account.id + 100}`
       );
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");

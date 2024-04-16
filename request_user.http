@@ -3,12 +3,12 @@ POST http://localhost:3000/api/v1/users
 Content-Type: application/json
 
 {
-    "name": "Dummy3",
-    "email": "Dummy3@gmail.com",
-    "password": "Dummy123",
-    "identity_type": "SIM",
-    "identity_number": "777777777",
-    "address": "Jalan Kebenaran"
+    "name": "Andi",
+    "email": "Andi@gmail.com",
+    "password": "password123",
+    "identity_type": "Passport",
+    "identity_number": "987654321",
+    "address": "Jalan Jalan"
 }
 
 ### Get all users
@@ -29,5 +29,5 @@ Content-Type: application/json
 }
 
 ### Delete users by id
-DELETE http://localhost:3000/api/v1/users/5
+DELETE http://localhost:3000/api/v1/users/29
 

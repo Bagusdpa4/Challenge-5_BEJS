@@ -5,21 +5,21 @@ const request = require("supertest");
 let user = {}
 
 describe("test POST /api/v1/users endpoint", () => {
-  let name = "Dummy";
-  let email = "Dummy@gmail.com";
-  let password = "password123";
-  let identity_type = "KTP";
-  let identity_number = "77777";
-  let address = "Jalan Kebenaran";
-  beforeAll(async () => {
-    await prisma.transaction.deleteMany();
-    await prisma.account.deleteMany();
-    await prisma.profile.deleteMany();
-    await prisma.user.deleteMany();
-  });
+  // beforeAll(async () => {
+  //   await prisma.transaction.deleteMany();
+  //   await prisma.account.deleteMany();
+  //   await prisma.profile.deleteMany();
+  //   await prisma.user.deleteMany();
+  // });
 
   test("test email belum terdaftar -> sukses", async () => {
     try {
+      let name = "Dummy";
+      let email = "Dummy@gmail.com";
+      let password = "password123";
+      let identity_type = "KTP";
+      let identity_number = "77777";
+      let address = "Jalan Kebenaran";
       let { statusCode, body } = await request(app)
         .post("/api/v1/users")
         .send({name,email,password,identity_type,identity_number,address,});
@@ -51,6 +51,12 @@ describe("test POST /api/v1/users endpoint", () => {
   });
   test("test email sudah terdaftar -> error", async () => {
     try {
+      let name = "Dummy";
+      let email = "Dummy@gmail.com";
+      let password = "password123";
+      let identity_type = "KTP";
+      let identity_number = "77777";
+      let address = "Jalan Kebenaran";
       let { statusCode, body } = await request(app)
         .post("/api/v1/users")
         .send({name,email,password,identity_type,identity_number,address,});
@@ -121,7 +127,7 @@ describe("test GET /api/v1/users/:id endpoint", () => {
 
   test("test menampilkan detail users by id -> error", async () => {
     try {
-      let { statusCode, body } = await request(app).get(`/api/v1/users/${1998}`);
+      let { statusCode, body } = await request(app).get(`/api/v1/users/${user.id + 100}`);
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -177,7 +183,7 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
   test("test update data users -> error (not found)", async () => {
     try {
       let name = "usertest1";
-      let { statusCode, body } = await request(app).put(`/api/v1/users/${1998}`).send({name});
+      let { statusCode, body } = await request(app).put(`/api/v1/users/${user.id + 100}`).send({name});
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -203,7 +209,7 @@ describe("test DELETE /api/v1/users/:id endpoint", () => {
 
   test("test menghapus users by id -> error (not found)", async () => {
     try {
-      let { statusCode, body } = await request(app).delete(`/api/v1/users/${1998}`);
+      let { statusCode, body } = await request(app).delete(`/api/v1/users/${user.id + 100}`);
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
