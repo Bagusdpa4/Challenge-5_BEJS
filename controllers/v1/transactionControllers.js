@@ -6,6 +6,14 @@ module.exports = {
     try {
       const { amount, source_account_id, destination_account_id } = req.body;
 
+      if (!amount || !source_account_id || !destination_account_id){
+        return res.status(400).json({
+          status: false,
+          message: "Input must be required",
+          data: null,
+        })
+      }
+
       if (source_account_id === destination_account_id) {
         return res.status(401).json({
           status: false,
@@ -38,7 +46,7 @@ module.exports = {
       }
 
       if (sourceAccount.balance < amount) {
-        return res.status(400).json({
+        return res.status(403).json({
           status: false,
           message: "The balance in the source account is insufficient",
           data: null,
@@ -147,6 +155,5 @@ module.exports = {
     } catch (error) {
       next(error);
     }
-  },
-  
+  },  
 };
