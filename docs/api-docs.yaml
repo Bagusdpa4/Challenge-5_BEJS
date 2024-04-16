@@ -60,7 +60,7 @@ paths:
                     type: string
                     example: Email already used!
 
-        403:
+        401:
           description: Input must be required!
           content:
             application/json:
@@ -323,22 +323,6 @@ paths:
                   message:
                     type: string
                     example: Bank account number already exists
-                  data:
-                    example: ~
-
-        403:
-          description: Balance >= 50000!
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Balance must be at least 50000!
                   data:
                     example: ~
 

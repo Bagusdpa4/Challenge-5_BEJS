@@ -12,12 +12,6 @@ module.exports = {
           message: "Input must be required",
           data: null,
         });
-      } else if (!balance || balance < 50000) {
-        return res.status(403).json({
-          status: false,
-          message: "Balance must be at least 50000",
-          data: null,
-        });
       } 
 
       const existingNumAccount = await prisma.account.findFirst({
