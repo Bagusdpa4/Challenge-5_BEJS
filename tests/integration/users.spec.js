@@ -143,3 +143,85 @@ describe("test GET /api/v1/users/:id endpoint", () => {
     }
   });
 });
+
+describe("test PUT /api/v1/users/:id endpoint", () => {
+  test("test update data users -> sukses", async () => {
+    try {
+      let name = "usertest1";
+      let password = "password123";
+      let { statusCode, body } = await request(app)
+        .put(`/api/v1/users/${user.id}`)
+        .send({name,password,});
+
+      expect(statusCode).toBe(200);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+      expect(body.data).toHaveProperty("id");
+      expect(body.data).toHaveProperty("name");
+      expect(body.data).toHaveProperty("email");
+      expect(body.data).toHaveProperty("password");
+      expect(body.data).toHaveProperty("profiles");
+      expect(body.data.profiles).toHaveProperty("id");
+      expect(body.data.profiles).toHaveProperty("identity_type");
+      expect(body.data.profiles).toHaveProperty("identity_number");
+      expect(body.data.profiles).toHaveProperty("address");
+      expect(body.data.profiles).toHaveProperty("user_id");
+      expect(body.data.name).toBe(name);
+      expect(body.data.password).toBe(password);
+    } catch (err) {
+      throw err;
+    }
+  });
+
+  test("test update data users -> error (one data must be provided)", async () => {
+    try {
+      let { statusCode, body } = await request(app).put(`/api/v1/users/${user.id}`).send({});
+      expect(statusCode).toBe(400);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+    } catch (err) {
+      throw err;
+    }
+  });
+
+  test("test update data users -> error (not found)", async () => {
+    try {
+      let name = "usertest1";
+      let { statusCode, body } = await request(app).put(`/api/v1/users/${1998}`).send({name});
+      expect(statusCode).toBe(404);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+    } catch (err) {
+      throw err;
+    }
+  });
+});
+
+describe("test DELETE /api/v1/users/:id endpoint", () => {
+  test("test menghapus users by id -> sukses", async () => {
+    try {
+      let { statusCode, body } = await request(app).get(`/api/v1/users/${user.id}`);
+      expect(statusCode).toBe(200);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+    } catch (err) {
+      throw err;
+    }
+  });
+
+  test("test menghapus users by id -> error (not found)", async () => {
+    try {
+      let { statusCode, body } = await request(app).get(`/api/v1/users/${1998}`);
+      expect(statusCode).toBe(404);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+    } catch (err) {
+      throw err;
+    }
+  });
+});
