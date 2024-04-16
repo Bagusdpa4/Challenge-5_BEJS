@@ -19,6 +19,7 @@ describe("test POST /api/v1/accounts endpoint", () => {
       let { statusCode, body } = await request(app)
         .post("/api/v1/accounts")
         .send({ bank_name, bank_account_number, balance, user_id });
+      account = body.data;
       // console.log("body", body);
       expect(statusCode).toBe(201);
       expect(body).toHaveProperty("status");
@@ -79,6 +80,101 @@ describe("test POST /api/v1/accounts endpoint", () => {
       let { statusCode, body } = await request(app)
         .post("/api/v1/accounts")
         .send({ bank_name, bank_account_number, balance, user_id });
+      expect(statusCode).toBe(404);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+    } catch (err) {
+      throw err;
+    }
+  });
+});
+
+describe("test GET /api/v1/accounts endpoint", () => {
+  test("test menampilkan semua accounts yang sudah terdaftar -> sukses", async () => {
+    try {
+      let { statusCode, body } = await request(app).get("/api/v1/accounts");
+      expect(statusCode).toBe(200);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+      expect(body.data[0]).toHaveProperty("id");
+      expect(body.data[0]).toHaveProperty("bank_name");
+      expect(body.data[0]).toHaveProperty("bank_account_number");
+      expect(body.data[0]).toHaveProperty("balance");
+      expect(body.data[0]).toHaveProperty("user_id");
+    } catch (err) {
+      throw err;
+    }
+  });
+});
+
+describe("test GET /api/v1/accounts/:id endpoint", () => {
+  test("test menampilkan detail account by id -> sukses", async () => {
+    try {
+      let { statusCode, body } = await request(app).get(
+        `/api/v1/accounts/${account.id}`
+      );
+      expect(statusCode).toBe(200);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+      expect(body.data).toHaveProperty("id");
+      expect(body.data).toHaveProperty("bank_name");
+      expect(body.data).toHaveProperty("bank_account_number");
+      expect(body.data).toHaveProperty("balance");
+      expect(body.data).toHaveProperty("user_id");
+      expect(body.data).toHaveProperty("user");
+      expect(body.data.user).toHaveProperty("id");
+      expect(body.data.user).toHaveProperty("name");
+      expect(body.data.user).toHaveProperty("email");
+      expect(body.data.user).toHaveProperty("password");
+      expect(body.data.user).toHaveProperty("profiles");
+      expect(body.data.user.profiles).toHaveProperty("id");
+      expect(body.data.user.profiles).toHaveProperty("identity_type");
+      expect(body.data.user.profiles).toHaveProperty("identity_number");
+      expect(body.data.user.profiles).toHaveProperty("address");
+      expect(body.data.user.profiles).toHaveProperty("user_id");
+    } catch (err) {
+      throw err;
+    }
+  });
+
+  test("test menampilkan detail account by id -> error (not found)", async () => {
+    try {
+      let { statusCode, body } = await request(app).get(
+        `/api/v1/accounts/${1998}`
+      );
+      expect(statusCode).toBe(404);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+    } catch (err) {
+      throw err;
+    }
+  });
+});
+
+describe("test DELETE /api/v1/accounts/:id endpoint", () => {
+  test("test menghapus accounts by id -> sukses", async () => {
+    try {
+      let { statusCode, body } = await request(app).delete(
+        `/api/v1/accounts/${account.id}`
+      );
+      expect(statusCode).toBe(200);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+    } catch (err) {
+      throw err;
+    }
+  });
+
+  test("test menghapus accounts by id -> error (not found)", async () => {
+    try {
+      let { statusCode, body } = await request(app).delete(
+        `/api/v1/accounts/${1998}`
+      );
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
