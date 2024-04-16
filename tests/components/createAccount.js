@@ -1,6 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const createUser = require("../unit/createUser");
+const createUser = require("./createUser");
 
 async function createAccount() {
   const userId = await createUser();
@@ -8,7 +8,7 @@ async function createAccount() {
     const accountsData = [
       {
         bank_name: "BNI",
-        bank_account_number: "21082010195",
+        bank_account_number: "21082010300",
         balance: 1000000,
         user_id: userId[0],
       },

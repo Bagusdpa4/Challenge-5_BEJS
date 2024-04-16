@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const app = require("../../app");
 const request = require("supertest");
-const createAccount = require("../unit/createAccount");
+const createAccount = require("../components/createAccount");
 let accountId = [];
 
 describe("test POST /api/v1/transactions endpoint", () => {
@@ -57,7 +57,7 @@ describe("test POST /api/v1/transactions endpoint", () => {
       let destination_account_id = accountId[0];
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
-        .send({amount, source_account_id, destination_account_id});
+        .send({ amount, source_account_id, destination_account_id });
       expect(statusCode).toBe(401);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -74,7 +74,7 @@ describe("test POST /api/v1/transactions endpoint", () => {
       let destination_account_id = accountId[0];
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
-        .send({amount, source_account_id, destination_account_id});
+        .send({ amount, source_account_id, destination_account_id });
       expect(statusCode).toBe(403);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -91,7 +91,7 @@ describe("test POST /api/v1/transactions endpoint", () => {
       let destination_account_id = accountId[0] + 100;
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
-        .send({amount, source_account_id, destination_account_id});
+        .send({ amount, source_account_id, destination_account_id });
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");

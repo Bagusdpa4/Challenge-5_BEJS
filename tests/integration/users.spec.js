@@ -5,8 +5,8 @@ const request = require("supertest");
 let user = {}
 
 describe("test POST /api/v1/users endpoint", () => {
-  let name = "usertest1";
-  let email = "usertest1@gmail.com";
+  let name = "Dummy";
+  let email = "Dummy@gmail.com";
   let password = "password123";
   let identity_type = "KTP";
   let identity_number = "77777";

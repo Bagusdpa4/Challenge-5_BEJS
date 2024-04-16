@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const app = require("../../app");
 const request = require("supertest");
-const createUser = require("../unit/createUser");
+const createUser = require("../components/createUser");
 let userId = [];
 
 describe("test POST /api/v1/accounts endpoint", () => {
@@ -14,7 +14,7 @@ describe("test POST /api/v1/accounts endpoint", () => {
     try {
       let bank_name = "BNI";
       let bank_account_number = "21082010195";
-      let balance = 100000;
+      let balance = 1000000;
       let user_id = userId[0];
       let { statusCode, body } = await request(app)
         .post("/api/v1/accounts")
