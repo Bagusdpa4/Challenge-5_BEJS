@@ -2,19 +2,18 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const app = require("../../app");
 const request = require("supertest");
-const createAccount = require("../components/createAccount");
-let accountId = [];
+let account
 
 describe("test POST /api/v1/transactions endpoint", () => {
   beforeAll(async () => {
-    accountId = await createAccount();
+    account = await prisma.account.findMany();
   });
 
   test("test membuat transaksi baru by account_id -> sukses", async () => {
     try {
       let amount = 10000;
-      let source_account_id = accountId[0];
-      let destination_account_id = accountId[1];
+      let source_account_id = account[0].id;
+      let destination_account_id = account[1].id;
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
         .send({ amount, source_account_id, destination_account_id });
@@ -53,8 +52,8 @@ describe("test POST /api/v1/transactions endpoint", () => {
   test("test membuat transaksi baru by account_id -> error (cannot be same id)", async () => {
     try {
       let amount = 10000;
-      let source_account_id = accountId[0];
-      let destination_account_id = accountId[0];
+      let source_account_id = account[0].id;
+      let destination_account_id = account[0].id;
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
         .send({ amount, source_account_id, destination_account_id });
@@ -70,8 +69,8 @@ describe("test POST /api/v1/transactions endpoint", () => {
   test("test membuat transaksi baru by account_id -> error (Balance is insufficient)", async () => {
     try {
       let amount = 1000000;
-      let source_account_id = accountId[1];
-      let destination_account_id = accountId[0];
+      let source_account_id = account[1].id;
+      let destination_account_id = account[0].id;
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
         .send({ amount, source_account_id, destination_account_id });
@@ -87,8 +86,8 @@ describe("test POST /api/v1/transactions endpoint", () => {
   test("test membuat transaksi baru by account_id -> error (account_id not found!)", async () => {
     try {
       let amount = 10000;
-      let source_account_id = accountId[0];
-      let destination_account_id = accountId[0] + 100;
+      let source_account_id = account[0].id;
+      let destination_account_id = account[0].id + 100;
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
         .send({ amount, source_account_id, destination_account_id });

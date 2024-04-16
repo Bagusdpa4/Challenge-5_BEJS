@@ -2,12 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const app = require("../../app");
 const request = require("supertest");
-const createUser = require("../components/createUser");
-let userId = [];
+let user
+let account
 
 describe("test POST /api/v1/accounts endpoint", () => {
   beforeAll(async () => {
-    userId = await createUser();
+    user = await prisma.user.findMany();
   });
 
   test("test membuat account baru by user_id -> sukses", async () => {
@@ -15,7 +15,7 @@ describe("test POST /api/v1/accounts endpoint", () => {
       let bank_name = "BNI";
       let bank_account_number = "21082010195";
       let balance = 1000000;
-      let user_id = userId[0];
+      let user_id = user[0].id;
       let { statusCode, body } = await request(app)
         .post("/api/v1/accounts")
         .send({ bank_name, bank_account_number, balance, user_id });
@@ -58,7 +58,7 @@ describe("test POST /api/v1/accounts endpoint", () => {
       let bank_name = "BNI";
       let bank_account_number = "21082010195";
       let balance = 100000;
-      let user_id = userId[1];
+      let user_id = user[0].id;
       let { statusCode, body } = await request(app)
         .post("/api/v1/accounts")
         .send({ bank_name, bank_account_number, balance, user_id });
@@ -76,7 +76,7 @@ describe("test POST /api/v1/accounts endpoint", () => {
       let bank_name = "BNI";
       let bank_account_number = "21082010100";
       let balance = 100000;
-      let user_id = userId[0] + 100;
+      let user_id = user[0].id + 100;
       let { statusCode, body } = await request(app)
         .post("/api/v1/accounts")
         .send({ bank_name, bank_account_number, balance, user_id });
@@ -110,10 +110,13 @@ describe("test GET /api/v1/accounts endpoint", () => {
 });
 
 describe("test GET /api/v1/accounts/:id endpoint", () => {
+  beforeAll(async () => {
+    account = await prisma.account.findMany();
+  });
   test("test menampilkan detail account by id -> sukses", async () => {
     try {
       let { statusCode, body } = await request(app).get(
-        `/api/v1/accounts/${account.id}`
+        `/api/v1/accounts/${account[0].id}`
       );
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
@@ -143,7 +146,7 @@ describe("test GET /api/v1/accounts/:id endpoint", () => {
   test("test menampilkan detail account by id -> error (not found)", async () => {
     try {
       let { statusCode, body } = await request(app).get(
-        `/api/v1/accounts/${1998}`
+        `/api/v1/accounts/${account[0].id + 100}`
       );
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
@@ -156,10 +159,13 @@ describe("test GET /api/v1/accounts/:id endpoint", () => {
 });
 
 describe("test DELETE /api/v1/accounts/:id endpoint", () => {
+  beforeAll(async () => {
+    account = await prisma.account.findMany();
+  });
   test("test menghapus accounts by id -> sukses", async () => {
     try {
       let { statusCode, body } = await request(app).delete(
-        `/api/v1/accounts/${account.id}`
+        `/api/v1/accounts/${account[0].id}`
       );
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
@@ -173,7 +179,7 @@ describe("test DELETE /api/v1/accounts/:id endpoint", () => {
   test("test menghapus accounts by id -> error (not found)", async () => {
     try {
       let { statusCode, body } = await request(app).delete(
-        `/api/v1/accounts/${1998}`
+        `/api/v1/accounts/${account[0].id + 100}`
       );
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
