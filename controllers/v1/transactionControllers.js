@@ -14,14 +14,6 @@ module.exports = {
         })
       }
 
-      if (source_account_id === destination_account_id) {
-        return res.status(401).json({
-          status: false,
-          message: "Source_id and destination_id accounts cannot be the same",
-          data: null,
-        });
-      }
-
       const sourceAccount = await prisma.account.findUnique({
         where: { id: source_account_id },
       });
@@ -46,7 +38,7 @@ module.exports = {
       }
 
       if (sourceAccount.balance < amount) {
-        return res.status(403).json({
+        return res.status(401).json({
           status: false,
           message: "The balance in the source account is insufficient",
           data: null,

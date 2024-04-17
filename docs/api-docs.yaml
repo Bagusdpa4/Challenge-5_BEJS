@@ -513,22 +513,6 @@ paths:
                     example: ~
 
         401:
-          description: Cannot be same
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Source_id and destination_id accounts cannot be the same
-                  data:
-                    example: ~
-
-        403:
           description: Balance is insufficient
           content:
             application/json:

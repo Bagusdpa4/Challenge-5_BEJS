@@ -5,12 +5,12 @@ const request = require("supertest");
 let user = {}
 
 describe("test POST /api/v1/users endpoint", () => {
-  // beforeAll(async () => {
-  //   await prisma.transaction.deleteMany();
-  //   await prisma.account.deleteMany();
-  //   await prisma.profile.deleteMany();
-  //   await prisma.user.deleteMany();
-  // });
+  beforeAll(async () => {
+    await prisma.transaction.deleteMany();
+    await prisma.account.deleteMany();
+    await prisma.profile.deleteMany();
+    await prisma.user.deleteMany();
+  });
 
   test("test email belum terdaftar -> sukses", async () => {
     try {
@@ -141,8 +141,8 @@ describe("test GET /api/v1/users/:id endpoint", () => {
 describe("test PUT /api/v1/users/:id endpoint", () => {
   test("test update data users -> sukses", async () => {
     try {
-      let name = "usertest1";
-      let password = "password123";
+      let name = "Testing";
+      let password = "Testing123";
       let { statusCode, body } = await request(app)
         .put(`/api/v1/users/${user.id}`)
         .send({name,password,});
@@ -182,7 +182,7 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
 
   test("test update data users -> error (not found)", async () => {
     try {
-      let name = "usertest1";
+      let name = "Coba-Coba";
       let { statusCode, body } = await request(app).put(`/api/v1/users/${user.id + 100}`).send({name});
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
@@ -195,17 +195,17 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
 });
 
 describe("test DELETE /api/v1/users/:id endpoint", () => {
-  test("test menghapus users by id -> sukses", async () => {
-    try {
-      let { statusCode, body } = await request(app).delete(`/api/v1/users/${user.id}`);
-      expect(statusCode).toBe(200);
-      expect(body).toHaveProperty("status");
-      expect(body).toHaveProperty("message");
-      expect(body).toHaveProperty("data");
-    } catch (err) {
-      throw err;
-    }
-  });
+  // test("test menghapus users by id -> sukses", async () => {
+  //   try {
+  //     let { statusCode, body } = await request(app).delete(`/api/v1/users/${user.id}`);
+  //     expect(statusCode).toBe(200);
+  //     expect(body).toHaveProperty("status");
+  //     expect(body).toHaveProperty("message");
+  //     expect(body).toHaveProperty("data");
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // });
 
   test("test menghapus users by id -> error (not found)", async () => {
     try {

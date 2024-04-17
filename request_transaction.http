@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
     "amount": 50000,
-    "source_account_id": 6,
-    "destination_account_id": 1
+    "source_account_id": 53,
+    "destination_account_id": 53
 }
 
 ### Get all Transaction
