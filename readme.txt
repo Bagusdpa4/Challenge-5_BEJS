@@ -1,6 +1,7 @@
 ** JIka ingin run testing bersamaan, jalankan perintah:
 yarn test:sequential
 
+
 ** Urutan melakukan testing (secara terpisah) jalankan perintah:
 1.  yarn test users.spec.js
 2.  yarn test account.spec.js
@@ -16,4 +17,3 @@ yarn test:sequential
 5. yarn test users.spec.js
 6. yarn test account.spec.js
 7. yarn test transactions.spec.js
-8. Maka data yang tersisa masing-masing hanya 1 

@@ -6,7 +6,7 @@ module.exports = {
     try {
       const { bank_name, bank_account_number, balance, user_id } = req.body;
 
-      if (!bank_name || !bank_account_number || !user_id) {
+      if (!bank_name || !bank_account_number || !balance || !user_id) {
         return res.status(400).json({
           status: false,
           message: "Input must be required",

@@ -15,19 +15,41 @@ Content-Type: application/json
 GET http://localhost:3000/api/v1/users
 
 ### Get all users with search name
-GET http://localhost:3000/api/v1/users?search=Paijo
+GET http://localhost:3000/api/v1/users?search=bagus
 
 ### Get detail users by id
-GET http://localhost:3000/api/v1/users/5
+GET http://localhost:3000/api/v1/users/132
 
 ### Update users by id
-PUT http://localhost:3000/api/v1/users/2   
+PUT http://localhost:3000/api/v1/users/119  
 Content-Type: application/json
 
 {
-    "identity_type": "Passport"
+    "identity_type": "SIM"
 }
 
 ### Delete users by id
-DELETE http://localhost:3000/api/v1/users/93
+DELETE http://localhost:3000/api/v1/users/2
 
+### Register
+POST http://localhost:3000/api/v1/auth/register
+Content-Type: application/json
+
+{
+    "name": "sabrina",
+    "email": "sabrina@gmail.com",
+    "password": "password123"
+}
+
+### login
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "sabrina@gmail.com",
+    "password": "password123"
+}
+
+### login token
+GET http://localhost:3000/api/v1/auth/dashboard
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6InNhYnJpbmEiLCJlbWFpbCI6InNhYnJpbmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkSmtIM3BBaTB1V0dsR09WSjFSMlpHT1cyaFU1TUcyT3NtSzRMUG5iVWlNU1JNejAuNzAvcUciLCJpYXQiOjE3MTM1MjUxMzZ9.bYLekSWIR3LPgmRZGbYYkkVY-nenVBbFmbCfZGpHDfk

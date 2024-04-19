@@ -4,19 +4,19 @@ Content-Type: application/json
 
 {
     "bank_name": "MANDIRI",
-    "bank_account_number": "21082010600",
+    "bank_account_number": "21082010500",
     "balance": 2000000,
-    "user_id": 94
+    "user_id": 120
 }
 
 ### Get all Account user
 GET http://localhost:3000/api/v1/accounts
 
 ### Get All Account user with search bank_name
-GET http://localhost:3000/api/v1/accounts?search=testing
+GET http://localhost:3000/api/v1/accounts?search=mandiri
 
 ### Get Detail Account user by id
-GET http://localhost:3000/api/v1/accounts/6
+GET http://localhost:3000/api/v1/accounts/72
 
 ### Delete Account by id
-DELETE http://localhost:3000/api/v1/accounts/13
+DELETE http://localhost:3000/api/v1/accounts/72

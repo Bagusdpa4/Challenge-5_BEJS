@@ -2,19 +2,42 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const app = require("../../app");
 const request = require("supertest");
+let user;
 let account;
 let transaction;
+let newAccount;
 
 describe("test POST /api/v1/transactions endpoint", () => {
   beforeAll(async () => {
     account = await prisma.account.findMany();
+    user = await prisma.user.findMany();
+    try {
+      let bank_name = "BCA";
+      let bank_account_number = "21082010123";
+      let balance = 1000000;
+      let user_id = user[0].id;
+
+      const { statusCode, body } = await request(app)
+        .post("/api/v1/accounts")
+        .send({ bank_name, bank_account_number, balance, user_id });
+
+      expect(statusCode).toBe(201);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+      
+      newAccount = body.data;
+    } catch (err) {
+      throw err;
+    }
   });
 
   test("test membuat transaksi baru by account_id -> sukses", async () => {
     try {
       let amount = 10000;
       let source_account_id = account[0].id;
-      let destination_account_id = account[0].id;
+      let destination_account_id = newAccount.id;
+      
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
         .send({ amount, source_account_id, destination_account_id });
