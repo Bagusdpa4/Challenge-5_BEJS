@@ -955,7 +955,7 @@ components:
             properties:
               email:
                 type: string
-                example: guntur
+                example: guntur@gmail.com
               password:
                 type: string
                 example: guntur123
