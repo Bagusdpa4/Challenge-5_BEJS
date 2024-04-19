@@ -294,6 +294,7 @@ paths:
             type: string
           name: search
           in: query
+          description: search for get name users
       description: Get all users
       responses:
         200:
@@ -560,6 +561,7 @@ paths:
             type: string
           name: search
           in: query
+          description: search for get bank_name accounts
       description: Get all accounts
       responses:
         200:
