@@ -63,7 +63,9 @@ module.exports = {
       const users = await prisma.user.findMany({
         where: { name: { contains: search, mode: "insensitive" } },
       });
-      delete users.password;
+      users.forEach(user => {
+        delete user.password;
+      });
       res.status(200).json({
         status: true,
         message: "success",
@@ -103,13 +105,11 @@ module.exports = {
   update: async (req, res, next) => {
     const id = Number(req.params.id);
     try {
-      const { name, email, password, identity_type, identity_number, address } =
+      const { name, identity_type, identity_number, address } =
         req.body;
 
       if (
         !name &&
-        !email &&
-        !password &&
         !identity_type &&
         !identity_number &&
         !address
@@ -133,13 +133,10 @@ module.exports = {
         });
       }
 
-      let encryptedPassword = await bcrypt.hash(password, 10);
       const user = await prisma.user.update({
         where: { id },
         data: {
           name,
-          email,
-          password : encryptedPassword,
           profiles: {
             update: { identity_type, identity_number, address },
           },

@@ -138,10 +138,10 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
   test("test update data users -> sukses", async () => {
     try {
       let name = "Testing";
-      let password = "Testing123";
+
       let { statusCode, body } = await request(app)
         .put(`/api/v1/users/${user.id}`)
-        .send({name,password,});
+        .send({name});
 
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
@@ -149,7 +149,6 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
       expect(body).toHaveProperty("data");
       expect(body.data).toHaveProperty("id");
       expect(body.data).toHaveProperty("name");
-      expect(body.data).toHaveProperty("email");
       expect(body.data).toHaveProperty("profiles");
       expect(body.data.profiles).toHaveProperty("id");
       expect(body.data.profiles).toHaveProperty("identity_type");

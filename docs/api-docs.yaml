@@ -376,7 +376,7 @@ paths:
           in: path
           required: true
       requestBody:
-        $ref: '#/components/requestBodies/createUser'
+        $ref: '#/components/requestBodies/updateUser'
 
       responses:
         200:
@@ -974,6 +974,24 @@ components:
               password:
                 type: string
                 example: guntur123
+              identity_type:
+                type: string
+                example: KTP
+              identity_number:
+                type: string
+                example: "123456789"
+              address:
+                type: string
+                example: Jalan Kebenaran 
+    updateUser: 
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: guntur
               identity_type:
                 type: string
                 example: KTP
