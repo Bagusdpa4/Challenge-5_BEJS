@@ -6,10 +6,10 @@ yarn test:sequential
 1.  yarn test users.spec.js
 2.  yarn test account.spec.js
 3.  yarn test transactions.spec.js
-4.  auth
+4.  yarn test auth.spec.js
 
 
-** Jika ingin mencoba melakukan testing API Delete (user, account, transaction)
+** Jika ingin mencoba melakukan testing API Delete (user, account, transaction, auth)
 1. Delete/kosongkan semua data yang ada pada database (user, profile, account, transaction) melalui request.http
 2. Buat masing-masing 1 data melalui request.http (user, account, transaction) // sesuaikan idnya
 3. Matikan/komen deleteMany pada beforeAll di testing users.spec.js
@@ -17,3 +17,4 @@ yarn test:sequential
 5. yarn test users.spec.js
 6. yarn test account.spec.js
 7. yarn test transactions.spec.js
+8. yarn test auth.spec.js

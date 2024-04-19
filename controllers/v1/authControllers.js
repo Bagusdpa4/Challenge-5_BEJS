@@ -94,7 +94,7 @@ module.exports = {
     }
   },
 
-  me: async (req, res, next) => {
+  auth: async (req, res, next) => {
     try {
       return res.status(200).json({
         status: true,
