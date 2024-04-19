@@ -1,0 +1,25 @@
+### Register
+POST http://localhost:3000/api/v1/auth/register
+Content-Type: application/json
+
+{
+    "name": "halo",
+    "email": "halo@gmail.com",
+    "password": "password123",
+    "identity_type": "Owner Binar",
+    "identity_number": "123456789",
+    "address": "Jalan Menuju Surga"
+}
+
+### login
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "sabrina@gmail.com",
+    "password": "password123"
+}
+
+### login token
+GET http://localhost:3000/api/v1/auth/authenticate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6InNhYnJpbmEiLCJlbWFpbCI6InNhYnJpbmFAZ21haWwuY29tIiwiaWF0IjoxNzEzNTQxNDE0fQ.A9ynUjl6qfjq0T-aEOt4Q47OmaXKqtofAotULGfszdQ

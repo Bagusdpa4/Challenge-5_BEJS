@@ -4,15 +4,16 @@ let { JWT_SECRET_KEY } = process.env;
 module.exports = async (req, res, next) => {
   const { authorization } = req.headers;
 
-  if (!authorization){
+  if (!authorization || !authorization.split(" ")[1]){
     return res.status(401).json({
         status: false,
-        message: 'you\re not authorized!',
+        message: 'token not provided',
         data: null
     })
   }
 
-  jwt.verify(authorization, JWT_SECRET_KEY, (err, decoded) => {
+  let token = authorization.split(" ")[1];
+  jwt.verify(token, JWT_SECRET_KEY, (err, user) => {
     if (err) {
         return res.status(401).json({
             status: false,
@@ -20,14 +21,8 @@ module.exports = async (req, res, next) => {
             data: null
         })
     }
-    req.user = decoded
+    delete user.iat;
+    req.user = user
     next()
   })
 };
-
-// module.exports = {
-//     restrict: (req, res, next) => {
-//         if (req.isAuthenticated()) return next()
-//         res.redirect('/api/v1/login')
-//     }
-// }

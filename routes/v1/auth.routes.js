@@ -1,15 +1,10 @@
 const router = require("express").Router();
-const {register, verify, dashboard} = require("../../controllers/v1/authControllers");
-const passport = require('../../libs/passport')
+const {register, login, me} = require("../../controllers/v1/authControllers");
 const restrict = require('../../middlewares/auth.middlewares')
 
 // API Auth
 router.post("/auth/register", register);
-router.post("/auth/login", verify);
-router.get('/auth/dashboard', restrict, dashboard)
-// router.post('/login', passport.authenticate('local', {
-//     successRedirect: '/api/v1/dashboard',
-//     failureRedirect: '/api/v1/login'
-// }));
+router.post("/auth/login", login);
+router.get('/auth/authenticate', restrict, me)
 
 module.exports = router;
