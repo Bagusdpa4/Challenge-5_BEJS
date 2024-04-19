@@ -129,9 +129,11 @@ describe("test POST /api/v1/auth/login endpoint", () => {
 
   test("test inputan ada yang tidak diisi -> error", async () => {
     try {
+      let email = "";
+      let password = "";
       let { statusCode, body } = await request(app)
-        .post("/api/v1/auth/register")
-        .send({});
+        .post("/api/v1/auth/login")
+        .send({email, password});
 
       expect(statusCode).toBe(400);
       expect(body).toHaveProperty("status");
