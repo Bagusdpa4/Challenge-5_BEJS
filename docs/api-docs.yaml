@@ -894,9 +894,6 @@ components:
         email:
           type: string
           example: guntur@gmail.com
-        password:
-          type: string
-          example: guntur123
     Profile:
       type: object
       properties:

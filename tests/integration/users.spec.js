@@ -32,7 +32,6 @@ describe("test POST /api/v1/users endpoint", () => {
       expect(body.data).toHaveProperty("id");
       expect(body.data).toHaveProperty("name");
       expect(body.data).toHaveProperty("email");
-      expect(body.data).toHaveProperty("password");
       expect(body.data).toHaveProperty("profiles");
       expect(body.data.profiles).toHaveProperty("id");
       expect(body.data.profiles).toHaveProperty("identity_type");
@@ -41,7 +40,6 @@ describe("test POST /api/v1/users endpoint", () => {
       expect(body.data.profiles).toHaveProperty("user_id");
       expect(body.data.name).toBe(name);
       expect(body.data.email).toBe(email);
-      expect(body.data.password).toBe(password);
       expect(body.data.profiles.identity_type).toBe(identity_type);
       expect(body.data.profiles.identity_number).toBe(identity_number);
       expect(body.data.profiles.address).toBe(address);
@@ -95,7 +93,6 @@ describe("test GET /api/v1/users endpoint", () => {
       expect(body.data[0]).toHaveProperty("id");
       expect(body.data[0]).toHaveProperty("name");
       expect(body.data[0]).toHaveProperty("email");
-      expect(body.data[0]).toHaveProperty("password");
     } catch (err) {
       throw err;
     }
@@ -113,7 +110,6 @@ describe("test GET /api/v1/users/:id endpoint", () => {
       expect(body.data).toHaveProperty("id");
       expect(body.data).toHaveProperty("name");
       expect(body.data).toHaveProperty("email");
-      expect(body.data).toHaveProperty("password");
       expect(body.data).toHaveProperty("profiles");
       expect(body.data.profiles).toHaveProperty("id");
       expect(body.data.profiles).toHaveProperty("identity_type");
@@ -154,7 +150,6 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
       expect(body.data).toHaveProperty("id");
       expect(body.data).toHaveProperty("name");
       expect(body.data).toHaveProperty("email");
-      expect(body.data).toHaveProperty("password");
       expect(body.data).toHaveProperty("profiles");
       expect(body.data.profiles).toHaveProperty("id");
       expect(body.data.profiles).toHaveProperty("identity_type");
@@ -162,7 +157,6 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
       expect(body.data.profiles).toHaveProperty("address");
       expect(body.data.profiles).toHaveProperty("user_id");
       expect(body.data.name).toBe(name);
-      expect(body.data.password).toBe(password);
     } catch (err) {
       throw err;
     }

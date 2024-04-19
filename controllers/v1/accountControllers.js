@@ -93,6 +93,7 @@ module.exports = {
           data: null,
         });
       }
+      delete accounts.user.password;
       res.status(200).json({
         status: true,
         message: "success",

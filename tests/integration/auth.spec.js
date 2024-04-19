@@ -114,7 +114,7 @@ describe("test POST /api/v1/auth/login endpoint", () => {
           password,
         });
       token = body.data.token;
-      expect(statusCode).toBe(200);
+      expect(statusCode).toBe(201);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
       expect(body).toHaveProperty("data");

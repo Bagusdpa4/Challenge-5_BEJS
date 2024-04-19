@@ -129,7 +129,6 @@ describe("test GET /api/v1/accounts/:id endpoint", () => {
       expect(body.data.user).toHaveProperty("id");
       expect(body.data.user).toHaveProperty("name");
       expect(body.data.user).toHaveProperty("email");
-      expect(body.data.user).toHaveProperty("password");
       expect(body.data.user).toHaveProperty("profiles");
       expect(body.data.user.profiles).toHaveProperty("id");
       expect(body.data.user.profiles).toHaveProperty("identity_type");

@@ -84,7 +84,7 @@ module.exports = {
       delete user.password;
       let token = jwt.sign(user, JWT_SECRET_KEY);
 
-      return res.status(200).json({
+      return res.status(201).json({
         status: true,
         message: "success",
         data: { ...user, token },
