@@ -1,5 +1,6 @@
 ### Create Transaction
 POST http://localhost:3000/api/v1/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODQsIm5hbWUiOiJCYWd1cyIsImVtYWlsIjoiQmFndXNAZ21haWwuY29tIiwiaWF0IjoxNzEzNjY5MjE2fQ.xHpmIOlYzW5Rnh5aP0QLFhECWwKcpetgGVaYLx9PUJM
 Content-Type: application/json
 
 {
@@ -10,9 +11,10 @@ Content-Type: application/json
 
 ### Get all Transaction
 GET http://localhost:3000/api/v1/transactions
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODQsIm5hbWUiOiJCYWd1cyIsImVtYWlsIjoiQmFndXNAZ21haWwuY29tIiwiaWF0IjoxNzEzNjY5MjE2fQ.xHpmIOlYzW5Rnh5aP0QLFhECWwKcpetgGVaYLx9PUJM
 ### Get Detail Transaction by id
 GET http://localhost:3000/api/v1/transactions/66
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODQsIm5hbWUiOiJCYWd1cyIsImVtYWlsIjoiQmFndXNAZ21haWwuY29tIiwiaWF0IjoxNzEzNjY5MjE2fQ.xHpmIOlYzW5Rnh5aP0QLFhECWwKcpetgGVaYLx9PUJM
 ### Delete Transaction user by id
 Delete http://localhost:3000/api/v1/transactions/53
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODQsIm5hbWUiOiJCYWd1cyIsImVtYWlsIjoiQmFndXNAZ21haWwuY29tIiwiaWF0IjoxNzEzNjY5MjE2fQ.xHpmIOlYzW5Rnh5aP0QLFhECWwKcpetgGVaYLx9PUJM
