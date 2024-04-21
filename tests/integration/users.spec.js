@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const app = require("../../app");
 const request = require("supertest");
+let token = ""
 let user = {}
 
 describe("test POST /api/v1/users endpoint", () => {
@@ -81,11 +82,53 @@ describe("test POST /api/v1/users endpoint", () => {
     }
   });
 });
+describe("test POST /api/v1/auth/login endpoint", () => {
+  test("test login user -> sukses", async () => {
+    try {
+      let email = "Dummy@gmail.com";
+      let password = "password123";
+      let { statusCode, body } = await request(app)
+        .post("/api/v1/auth/login")
+        .send({
+          email,
+          password,
+        });
+      token = body.data.token;
+      expect(statusCode).toBe(201);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+      expect(body.data).toHaveProperty("id");
+      expect(body.data).toHaveProperty("name");
+      expect(body.data).toHaveProperty("email");
+      expect(body.data).toHaveProperty("token");
+    } catch (err) {
+      throw err;
+    }
+  });
+
+  test("test inputan ada yang tidak diisi -> error", async () => {
+    try {
+      let email = "";
+      let password = "";
+      let { statusCode, body } = await request(app)
+        .post("/api/v1/auth/login")
+        .send({email, password});
+
+      expect(statusCode).toBe(400);
+      expect(body).toHaveProperty("status");
+      expect(body).toHaveProperty("message");
+      expect(body).toHaveProperty("data");
+    } catch (err) {
+      throw err;
+    }
+  });
+});
 
 describe("test GET /api/v1/users endpoint", () => {
   test("test menampilkan semua users yang sudah terdaftar -> sukses", async () => {
     try {
-      let { statusCode, body } = await request(app).get("/api/v1/users");
+      let { statusCode, body } = await request(app).get("/api/v1/users").set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -102,7 +145,7 @@ describe("test GET /api/v1/users endpoint", () => {
 describe("test GET /api/v1/users/:id endpoint", () => {
   test("test menampilkan detail users by id -> sukses", async () => {
     try {
-      let { statusCode, body } = await request(app).get(`/api/v1/users/${user.id}`);
+      let { statusCode, body } = await request(app).get(`/api/v1/users/${user.id}`).set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -123,7 +166,7 @@ describe("test GET /api/v1/users/:id endpoint", () => {
 
   test("test menampilkan detail users by id -> error", async () => {
     try {
-      let { statusCode, body } = await request(app).get(`/api/v1/users/${user.id + 100}`);
+      let { statusCode, body } = await request(app).get(`/api/v1/users/${user.id + 100}`).set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -141,7 +184,8 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
 
       let { statusCode, body } = await request(app)
         .put(`/api/v1/users/${user.id}`)
-        .send({name});
+        .send({name})
+        .set("Authorization", `Bearer ${token}`);
 
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
@@ -163,7 +207,9 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
 
   test("test update data users -> error (one data must be provided)", async () => {
     try {
-      let { statusCode, body } = await request(app).put(`/api/v1/users/${user.id}`).send({});
+      let { statusCode, body } = await request(app).put(`/api/v1/users/${user.id}`)
+      .send({})
+      .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(400);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -176,7 +222,9 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
   test("test update data users -> error (not found)", async () => {
     try {
       let name = "Coba-Coba";
-      let { statusCode, body } = await request(app).put(`/api/v1/users/${user.id + 100}`).send({name});
+      let { statusCode, body } = await request(app).put(`/api/v1/users/${user.id + 100}`)
+      .send({name})
+      .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -190,7 +238,9 @@ describe("test PUT /api/v1/users/:id endpoint", () => {
 describe("test DELETE /api/v1/users/:id endpoint", () => {
   // test("test menghapus users by id -> sukses", async () => {
   //   try {
-  //     let { statusCode, body } = await request(app).delete(`/api/v1/users/${user.id}`);
+  //     let { statusCode, body } = await request(app)
+  //     .delete(`/api/v1/users/${user.id}`)
+  //     .set("Authorization", `Bearer ${token}`);
   //     expect(statusCode).toBe(200);
   //     expect(body).toHaveProperty("status");
   //     expect(body).toHaveProperty("message");
@@ -202,7 +252,9 @@ describe("test DELETE /api/v1/users/:id endpoint", () => {
 
   test("test menghapus users by id -> error (not found)", async () => {
     try {
-      let { statusCode, body } = await request(app).delete(`/api/v1/users/${user.id + 100}`);
+      let { statusCode, body } = await request(app)
+      .delete(`/api/v1/users/${user.id + 100}`)
+      .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");

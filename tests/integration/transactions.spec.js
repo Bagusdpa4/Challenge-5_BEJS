@@ -12,6 +12,16 @@ describe("test POST /api/v1/transactions endpoint", () => {
     account = await prisma.account.findMany();
     user = await prisma.user.findMany();
     try {
+      let email = "Dummy@gmail.com";
+      let password = "password123";
+      let { body } = await request(app)
+        .post("/api/v1/auth/login")
+        .send({ email, password });
+      token = body.data.token;
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+    try {
       let bank_name = "BCA";
       let bank_account_number = "21082010123";
       let balance = 1000000;
@@ -19,7 +29,8 @@ describe("test POST /api/v1/transactions endpoint", () => {
 
       const { statusCode, body } = await request(app)
         .post("/api/v1/accounts")
-        .send({ bank_name, bank_account_number, balance, user_id });
+        .send({ bank_name, bank_account_number, balance, user_id })
+        .set("Authorization", `Bearer ${token}`);
 
       expect(statusCode).toBe(201);
       expect(body).toHaveProperty("status");
@@ -40,7 +51,8 @@ describe("test POST /api/v1/transactions endpoint", () => {
       
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
-        .send({ amount, source_account_id, destination_account_id });
+        .send({ amount, source_account_id, destination_account_id })
+        .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(201);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -61,7 +73,8 @@ describe("test POST /api/v1/transactions endpoint", () => {
     try {
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
-        .send({});
+        .send({})
+        .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(400);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -78,7 +91,8 @@ describe("test POST /api/v1/transactions endpoint", () => {
       let destination_account_id = account[0].id;
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
-        .send({ amount, source_account_id, destination_account_id });
+        .send({ amount, source_account_id, destination_account_id })
+        .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(401);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -95,7 +109,8 @@ describe("test POST /api/v1/transactions endpoint", () => {
       let destination_account_id = account[0].id + 100;
       let { statusCode, body } = await request(app)
         .post("/api/v1/transactions")
-        .send({ amount, source_account_id, destination_account_id });
+        .send({ amount, source_account_id, destination_account_id })
+        .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -109,7 +124,9 @@ describe("test POST /api/v1/transactions endpoint", () => {
 describe("test GET /api/v1/transactions endpoint", () => {
   test("test menampilkan semua transactions yang sudah terdaftar -> sukses", async () => {
     try {
-      let { statusCode, body } = await request(app).get("/api/v1/transactions");
+      let { statusCode, body } = await request(app)
+      .get("/api/v1/transactions")
+      .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -130,9 +147,9 @@ describe("test GET /api/v1/transactions/:id endpoint", () => {
   });
   test("test menampilkan detail transaction by id -> sukses", async () => {
     try {
-      let { statusCode, body } = await request(app).get(
-        `/api/v1/transactions/${transaction[0].id}`
-      );
+      let { statusCode, body } = await request(app)
+      .get(`/api/v1/transactions/${transaction[0].id}`)
+      .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(200);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -160,9 +177,9 @@ describe("test GET /api/v1/transactions/:id endpoint", () => {
 
   test("test menampilkan detail transaction by id -> error (not found)", async () => {
     try {
-      let { statusCode, body } = await request(app).get(
-        `/api/v1/transactions/${transaction[0].id + 100}`
-      );
+      let { statusCode, body } = await request(app)
+      .get(`/api/v1/transactions/${transaction[0].id + 100}`)
+      .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
@@ -179,9 +196,9 @@ describe("test DELETE /api/v1/transactions/:id endpoint", () => {
       });
     // test("test menghapus transactions by id -> sukses", async () => {
     //   try {
-    //     let { statusCode, body } = await request(app).delete(
-    //       `/api/v1/transactions/${transaction[0].id}`
-    //     );
+    //     let { statusCode, body } = await request(app)
+    //     .delete(`/api/v1/transactions/${transaction[0].id}`)
+    //     .set("Authorization", `Bearer ${token}`);
     //     expect(statusCode).toBe(200);
     //     expect(body).toHaveProperty("status");
     //     expect(body).toHaveProperty("message");
@@ -193,9 +210,9 @@ describe("test DELETE /api/v1/transactions/:id endpoint", () => {
 
   test("test menghapus transactions by id -> error (not found)", async () => {
     try {
-      let { statusCode, body } = await request(app).delete(
-        `/api/v1/transactions/${transaction[0].id + 100}`
-      );
+      let { statusCode, body } = await request(app)
+      .delete(`/api/v1/transactions/${transaction[0].id + 100}`)
+      .set("Authorization", `Bearer ${token}`);
       expect(statusCode).toBe(404);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");

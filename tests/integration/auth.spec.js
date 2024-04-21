@@ -168,7 +168,7 @@ describe("test GET /api/v1/auth/authenticate endpoint", () => {
       let { statusCode, body } = await request(app)
         .get("/api/v1/auth/authenticate")
         .set("Authorization", `Bearer ${"token"}`);
-      expect(statusCode).toBe(400);
+      expect(statusCode).toBe(409);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
       expect(body).toHaveProperty("data");
@@ -183,7 +183,7 @@ describe("test GET /api/v1/auth/authenticate endpoint", () => {
       let { statusCode, body } = await request(app)
         .get("/api/v1/auth/authenticate")
         .set("Authorization", `Bearer ${token2}`);
-      expect(statusCode).toBe(401);
+      expect(statusCode).toBe(403);
       expect(body).toHaveProperty("status");
       expect(body).toHaveProperty("message");
       expect(body).toHaveProperty("data");
