@@ -314,8 +314,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/User'
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
 
   /users/{id}:
     parameters:
@@ -366,8 +366,8 @@ paths:
                     example: User with id {user_id} not found!
                   data:
                     example: ~
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
                 
     put:
       tags:
@@ -436,8 +436,8 @@ paths:
                     example: User with id {user_id} not found!
                   data:
                     example: ~
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
                   
     delete: 
       tags:
@@ -483,8 +483,8 @@ paths:
                     example: User with id {user_id} not found!
                   data:
                     example: ~
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
 
   /accounts:
     post:
@@ -559,8 +559,8 @@ paths:
                     example: User with id {user_id} not found!
                   data:
                     example: ~
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
 
     get :
       tags:
@@ -591,8 +591,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Account'
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
 
   /accounts/{id}:
     parameters:
@@ -647,8 +647,8 @@ paths:
                     example: Account with id ${id} not found!
                   data:
                     example: ~
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
 
     delete: 
       tags:
@@ -694,8 +694,8 @@ paths:
                     example: Account with id ${id} not found!
                   data:
                     example: ~ 
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
 
   /transactions:
     post:
@@ -770,8 +770,8 @@ paths:
                     example: Source account or Destination account not found
                   data:
                     example: ~ 
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
 
     get :
         tags:
@@ -796,8 +796,8 @@ paths:
                       type: array
                       items:
                         $ref: '#/components/schemas/Transaction'
-        security:
-        - bearerAuth: []
+        # security:
+        # - bearerAuth: []
 
   /transactions/{id}:
     parameters:
@@ -852,8 +852,8 @@ paths:
                     example: Transaction with id ${id} not found!
                   data:
                     example: ~
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
 
     delete: 
       tags:
@@ -899,8 +899,8 @@ paths:
                     example: Transaction with id ${id} not found!
                   data:
                     example: ~ 
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
 
 components:
   securitySchemes:
